@@ -13,6 +13,20 @@ import java.util.List;
 public class CPUDao {
     private Context context;
 
+    public static final String TABLE_NAME_CPU = "CPUs";
+
+    public static final String COLUMN_ID_CPU = "id_cpu";
+    public static final String COLUMN_NAME = "name";
+    public static final String COLUMN_FREQUENCY = "frequency";
+
+    public static final String CREATE_TABLE_CPU = "CREATE TABLE IF NOT EXISTS " +
+            TABLE_NAME_CPU +
+            " (\n" +
+            COLUMN_ID_CPU + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\n" +
+            COLUMN_NAME + " TEXT,\n" +
+            COLUMN_FREQUENCY + " INTEGER\n" +
+            ");";
+
     public CPUDao(Context context) {
         this.context = context;
     }
@@ -20,7 +34,7 @@ public class CPUDao {
     public synchronized List<CPU> selectAllCPUFromDB() {
         final SQLiteDatabase db = MultiDbHelper.getInstance(context).getReadableDatabase();
 
-        Cursor cursor = db.query(CPU.TABLE_NAME_CPU, null,
+        Cursor cursor = db.query(TABLE_NAME_CPU, null,
                 null, null, null, null, null);
 
         List<CPU> cpuList = convertFromCursorToListCPUs(cursor);
@@ -32,13 +46,13 @@ public class CPUDao {
 
     public synchronized void deleteAllRecordsFromDB() {
         final SQLiteDatabase db = MultiDbHelper.getInstance(context).getWritableDatabase();
-        db.delete(CPU.TABLE_NAME_CPU, null, null);
+        db.delete(TABLE_NAME_CPU, null, null);
         db.close();
     }
 
     public synchronized void insertRecordToDB(CPU cpu) {
         final SQLiteDatabase db = MultiDbHelper.getInstance(context).getWritableDatabase();
-        db.insertWithOnConflict(CPU.TABLE_NAME_CPU, null, cpu.getContent(), SQLiteDatabase.CONFLICT_IGNORE);
+        db.insertWithOnConflict(TABLE_NAME_CPU, null, cpu.getContent(), SQLiteDatabase.CONFLICT_IGNORE);
         db.close();
     }
 
@@ -47,7 +61,7 @@ public class CPUDao {
         db.beginTransaction();
         try {
             for (CPU cpu : cpus)
-                db.insertWithOnConflict(CPU.TABLE_NAME_CPU, null, cpu.getContent(), SQLiteDatabase.CONFLICT_IGNORE);
+                db.insertWithOnConflict(TABLE_NAME_CPU, null, cpu.getContent(), SQLiteDatabase.CONFLICT_IGNORE);
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();

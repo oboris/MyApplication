@@ -14,8 +14,6 @@ public class MotherBoard implements MultiModel {
         this.photos = photos;
     }
 
-    //public static final String CREATE_TABLE_MB = "";
-
     public String getName() {
         return name;
     }

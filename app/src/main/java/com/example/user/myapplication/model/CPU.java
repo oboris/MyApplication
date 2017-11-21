@@ -3,6 +3,7 @@ package com.example.user.myapplication.model;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import com.example.user.myapplication.dao.CPUDao;
 import com.google.gson.annotations.SerializedName;
 
 //@Entity
@@ -17,19 +18,7 @@ public class CPU implements MultiModel {
     @SerializedName("RECORD_TYPE")
     private int frequency;
 
-    public static final String TABLE_NAME_CPU = "CPUs";
 
-    public static final String COLUMN_ID_CPU = "id_cpu";
-    public static final String COLUMN_NAME = "name";
-    public static final String COLUMN_FREQUENCY = "frequency";
-
-    public static final String CREATE_TABLE_CPU = "CREATE TABLE IF NOT EXISTS " +
-            TABLE_NAME_CPU +
-            " (\n" +
-            COLUMN_ID_CPU + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\n" +
-            COLUMN_NAME + " TEXT,\n" +
-            COLUMN_FREQUENCY + " INTEGER\n" +
-            ");";
 
     public CPU(String name, int frequency) {
         this.name = name;
@@ -37,9 +26,9 @@ public class CPU implements MultiModel {
     }
 
     public CPU(Cursor cursor) {
-        idCPU = cursor.getInt(cursor.getColumnIndex(COLUMN_ID_CPU));
-        name = cursor.getString(cursor.getColumnIndex(COLUMN_NAME));
-        frequency = cursor.getInt(cursor.getColumnIndex(COLUMN_FREQUENCY));
+        idCPU = cursor.getInt(cursor.getColumnIndex(CPUDao.COLUMN_ID_CPU));
+        name = cursor.getString(cursor.getColumnIndex(CPUDao.COLUMN_NAME));
+        frequency = cursor.getInt(cursor.getColumnIndex(CPUDao.COLUMN_FREQUENCY));
     }
 
     public int getIdCPU() {
@@ -62,8 +51,8 @@ public class CPU implements MultiModel {
     public ContentValues getContent() {
         final ContentValues values = new ContentValues();
         //values.put(COLUMN_ID_CPU, getIdCPU());
-        values.put(COLUMN_NAME, getName());
-        values.put(COLUMN_FREQUENCY, getFrequency());
+        values.put(CPUDao.COLUMN_NAME, getName());
+        values.put(CPUDao.COLUMN_FREQUENCY, getFrequency());
         return values;
     }
 }

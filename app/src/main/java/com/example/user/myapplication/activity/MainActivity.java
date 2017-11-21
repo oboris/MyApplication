@@ -184,6 +184,7 @@ public class MainActivity extends AppCompatActivity
 
     private void loadDataFromServer(int count, int firstPos, int codeFederation) {
         if (isOnline()) {
+            cpuDao.deleteAllRecordsFromDB();
             LoadRecordsTask loadRecordsTask = new LoadRecordsTask();
             loadRecordsTask.execute(count);
 //            ApiGoodLiftRecords.get().getRecords(count, firstPos, codeFederation, loadDataCallback);
