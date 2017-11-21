@@ -1,5 +1,6 @@
 package com.example.user.myapplication.dao;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -52,7 +53,7 @@ public class CPUDao {
 
     public synchronized void insertRecordToDB(CPU cpu) {
         final SQLiteDatabase db = MultiDbHelper.getInstance(context).getWritableDatabase();
-        db.insertWithOnConflict(TABLE_NAME_CPU, null, cpu.getContent(), SQLiteDatabase.CONFLICT_IGNORE);
+        db.insertWithOnConflict(TABLE_NAME_CPU, null, getContent(cpu), SQLiteDatabase.CONFLICT_IGNORE);
         db.close();
     }
 
@@ -61,7 +62,7 @@ public class CPUDao {
         db.beginTransaction();
         try {
             for (CPU cpu : cpus)
-                db.insertWithOnConflict(TABLE_NAME_CPU, null, cpu.getContent(), SQLiteDatabase.CONFLICT_IGNORE);
+                db.insertWithOnConflict(TABLE_NAME_CPU, null, getContent(cpu), SQLiteDatabase.CONFLICT_IGNORE);
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
@@ -69,14 +70,29 @@ public class CPUDao {
         db.close();
     }
 
-    private static List<CPU> convertFromCursorToListCPUs(Cursor cursor) {
+    private List<CPU> convertFromCursorToListCPUs(Cursor cursor) {
         List<CPU> cpuList = new ArrayList<>(cursor.getCount());
         cursor.moveToFirst();
         if (!cursor.isAfterLast()) {
             do {
-                cpuList.add(new CPU(cursor));
+                cpuList.add(fromCursorToCPU(cursor));
             } while (cursor.moveToNext());
         }
         return cpuList;
+    }
+
+    private CPU fromCursorToCPU(Cursor cursor) {
+        int idCPU = cursor.getInt(cursor.getColumnIndex(COLUMN_ID_CPU));
+        String name = cursor.getString(cursor.getColumnIndex(COLUMN_NAME));
+        int frequency = cursor.getInt(cursor.getColumnIndex(COLUMN_FREQUENCY));
+        return new CPU(idCPU, name, frequency);
+    }
+
+    private ContentValues getContent(CPU cpu) {
+        final ContentValues values = new ContentValues();
+        //values.put(COLUMN_ID_CPU, getIdCPU());
+        values.put(COLUMN_NAME, cpu.getName());
+        values.put(COLUMN_FREQUENCY, cpu.getFrequency());
+        return values;
     }
 }

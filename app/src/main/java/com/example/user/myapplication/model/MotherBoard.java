@@ -4,6 +4,7 @@ import java.util.List;
 
 public class MotherBoard implements MultiModel {
 
+    private int idMotherBoard;
     private String name;
     private String chipSet;
     private List<String> photos;
@@ -12,6 +13,17 @@ public class MotherBoard implements MultiModel {
         this.name = name;
         this.chipSet = chipSet;
         this.photos = photos;
+    }
+
+    public MotherBoard(int idMotherBoard, String name, String chipSet, List<String> photos) {
+        this.idMotherBoard = idMotherBoard;
+        this.name = name;
+        this.chipSet = chipSet;
+        this.photos = photos;
+    }
+
+    public int getIdMotherBoard() {
+        return idMotherBoard;
     }
 
     public String getName() {

@@ -1,9 +1,5 @@
 package com.example.user.myapplication.model;
 
-import android.content.ContentValues;
-import android.database.Cursor;
-
-import com.example.user.myapplication.dao.CPUDao;
 import com.google.gson.annotations.SerializedName;
 
 //@Entity
@@ -25,10 +21,10 @@ public class CPU implements MultiModel {
         this.frequency = frequency;
     }
 
-    public CPU(Cursor cursor) {
-        idCPU = cursor.getInt(cursor.getColumnIndex(CPUDao.COLUMN_ID_CPU));
-        name = cursor.getString(cursor.getColumnIndex(CPUDao.COLUMN_NAME));
-        frequency = cursor.getInt(cursor.getColumnIndex(CPUDao.COLUMN_FREQUENCY));
+    public CPU(int idCPU, String name, int frequency) {
+        this.idCPU = idCPU;
+        this.name = name;
+        this.frequency = frequency;
     }
 
     public int getIdCPU() {
@@ -46,13 +42,5 @@ public class CPU implements MultiModel {
     @Override
     public int getType() {
         return CPU_TYPE;
-    }
-
-    public ContentValues getContent() {
-        final ContentValues values = new ContentValues();
-        //values.put(COLUMN_ID_CPU, getIdCPU());
-        values.put(CPUDao.COLUMN_NAME, getName());
-        values.put(CPUDao.COLUMN_FREQUENCY, getFrequency());
-        return values;
     }
 }
