@@ -61,6 +61,7 @@ public class CPUDao {
         final SQLiteDatabase db = MultiDbHelper.getInstance(context).getWritableDatabase();
         db.beginTransaction();
         try {
+
             for (CPU cpu : cpus)
                 db.insertWithOnConflict(TABLE_NAME_CPU, null, getCPUContent(cpu), SQLiteDatabase.CONFLICT_IGNORE);
             db.setTransactionSuccessful();

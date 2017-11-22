@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity
 
     private CPUDao cpuDao;
     private MotherBoardDao motherBoardDao;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -129,6 +130,25 @@ public class MainActivity extends AppCompatActivity
         rvMultiList.setAdapter(multiListAdapter);
 
         multiModelList.addAll(motherBoardDao.selectAllMotherBoardFromDB());
+
+        rvMultiList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                                            @Override
+                                            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                                                if (newState == RecyclerView.SCROLL_STATE_IDLE){
+                                                    fab.show();
+                                                }
+                                                super.onScrollStateChanged(recyclerView, newState);
+
+                                            }
+
+                                            @Override
+                                            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                                                super.onScrolled(recyclerView, dx, dy);
+                                                if (dy > 0 ||dy<0 && fab.isShown())
+                                                    fab.hide();
+                                            }
+                                        }
+        );
 
         loadDataFromServer(30, 1, 0);
 
