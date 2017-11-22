@@ -32,7 +32,7 @@ public class MotherBoardHolder extends RecyclerView.ViewHolder implements ViewHo
 
     private void initList(List<String> stringList){
         rvPict.setHasFixedSize(true);
-        MotherBoardPictAdapter mbPictAdapter = new MotherBoardPictAdapter(stringList);
+        MotherBoardPictAdapter mbPictAdapter = new MotherBoardPictAdapter(stringList, rvPict.getContext());
         rvPict.setAdapter(mbPictAdapter);
     }
 }

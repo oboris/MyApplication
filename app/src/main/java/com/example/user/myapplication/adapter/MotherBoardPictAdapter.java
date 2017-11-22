@@ -1,5 +1,6 @@
 package com.example.user.myapplication.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,15 +9,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.user.myapplication.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class MotherBoardPictAdapter extends RecyclerView.Adapter<MotherBoardPictAdapter.MbViewHolder>{
 
     private List<String> stringList;
+    private Context context;
 
-    public MotherBoardPictAdapter(List<String> stringList) {
+    public MotherBoardPictAdapter(List<String> stringList, Context context) {
         this.stringList = stringList;
+        this.context = context;
     }
 
     @Override
@@ -27,6 +31,7 @@ public class MotherBoardPictAdapter extends RecyclerView.Adapter<MotherBoardPict
     @Override
     public void onBindViewHolder(MbViewHolder holder, int position) {
         holder.tvStr.setText(stringList.get(position));
+        Picasso.with(context).load(stringList.get(position)).into(holder.ivPic);
         //holder.ivPic.setImageBitmap();
     }
 

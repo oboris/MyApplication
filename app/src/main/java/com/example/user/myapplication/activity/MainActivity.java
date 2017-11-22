@@ -27,6 +27,7 @@ import com.example.user.myapplication.R;
 import com.example.user.myapplication.adapter.MultiListAdapter;
 import com.example.user.myapplication.api.ApiGoodLiftRecords;
 import com.example.user.myapplication.dao.CPUDao;
+import com.example.user.myapplication.dao.MotherBoardDao;
 import com.example.user.myapplication.model.CPU;
 import com.example.user.myapplication.model.MotherBoard;
 import com.example.user.myapplication.model.MultiModel;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity
     private TextView tvProgress;
 
     private CPUDao cpuDao;
+    private MotherBoardDao motherBoardDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +93,7 @@ public class MainActivity extends AppCompatActivity
         tvProgress = findViewById(R.id.tv_progress);
 
         cpuDao = new CPUDao(this);
+        motherBoardDao = new MotherBoardDao(this);
 
         initList();
     }
@@ -125,9 +128,11 @@ public class MainActivity extends AppCompatActivity
         MultiListAdapter multiListAdapter = new MultiListAdapter(multiModelList);
         rvMultiList.setAdapter(multiListAdapter);
 
-        loadDataFromServer(1000, 1, 0);
+        multiModelList.addAll(motherBoardDao.selectAllMotherBoardFromDB());
 
-        multiModelList.add(new CPU("1 i7", 2500));
+        loadDataFromServer(30, 1, 0);
+
+        /*multiModelList.add(new CPU("1 i7", 2500));
         multiModelList.add(new CPU("2 i3", 1500));
 
         List<String> list = new ArrayList<>();
@@ -159,17 +164,20 @@ public class MainActivity extends AppCompatActivity
         multiModelList.add(new CPU("5 i7", 2500));
         multiModelList.add(new CPU("6 i3", 1500));
         multiModelList.add(new CPU("7 i7", 2500));
-        multiModelList.add(new CPU("8 i3", 1500));
+        multiModelList.add(new CPU("8 i3", 1500));*/
+
 
     }
 
     private Callback<List<CPU>> loadDataCallback = new Callback<List<CPU>>() {
         @Override
-        public void onResponse(Call<List<CPU>> call, Response<List<CPU>> response) {
+        public void onResponse(@NonNull Call<List<CPU>> call, @NonNull Response<List<CPU>> response) {
             if (response.isSuccessful()) {
                 List<CPU> cpus = response.body();
-                multiModelList.addAll(cpus);
-                rvMultiList.getAdapter().notifyDataSetChanged();
+                if (cpus != null) {
+                    multiModelList.addAll(cpus);
+                    rvMultiList.getAdapter().notifyDataSetChanged();
+                }
 
 //                for (CPU cpu : cpus){
 //                    DBHelper.getInstance(HomeActivity.this).insertCoinToDB(cpu);
@@ -178,7 +186,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         @Override
-        public void onFailure(Call<List<CPU>> call, Throwable t) {
+        public void onFailure(@NonNull Call<List<CPU>> call, @NonNull Throwable t) {
         }
     };
 
@@ -186,7 +194,7 @@ public class MainActivity extends AppCompatActivity
         if (isOnline()) {
             cpuDao.deleteAllRecordsFromDB();
             LoadRecordsTask loadRecordsTask = new LoadRecordsTask();
-            loadRecordsTask.execute(count);
+            loadRecordsTask.execute(count,firstPos,codeFederation);
 //            ApiGoodLiftRecords.get().getRecords(count, firstPos, codeFederation, loadDataCallback);
         }
         else Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show();
@@ -209,10 +217,10 @@ public class MainActivity extends AppCompatActivity
             int count = 0;
             List<CPU> recordsList;
 
-            int recordsCount = 50;
-            int startPosition = 0;
+            int recordsCount = 5;
+            int startPosition = params[1];
             do {
-                recordsList = ApiGoodLiftRecords.get().getRecords(recordsCount, startPosition, 0, null);
+                recordsList = ApiGoodLiftRecords.get().getRecords(recordsCount, startPosition, params[2], null);
                 if (null != recordsList) {
 //                        for (Record record : recordsList) {
 //                            RecordDBHelper.getInstance(MainRecordsActivity.this).insertRecordToDB(record);
