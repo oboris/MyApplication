@@ -6,6 +6,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -30,6 +31,7 @@ import com.example.user.myapplication.dao.CPUDao;
 import com.example.user.myapplication.dao.MotherBoardDao;
 import com.example.user.myapplication.model.CPU;
 import com.example.user.myapplication.model.MultiModel;
+import com.example.user.myapplication.util.FABFloatOnScroll;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,13 +45,13 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private List<MultiModel> multiModelList = new ArrayList<>();
+    private RecyclerView rvMultiList;
 
     private RelativeLayout rlProgress;
     private TextView tvProgress;
 
     private CPUDao cpuDao;
     private MotherBoardDao motherBoardDao;
-    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +73,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        fab = findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,6 +81,10 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
+
+        /*CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) fab.getLayoutParams();
+        layoutParams.setBehavior(new FABFloatOnScroll(this, null));
+        fab.setLayoutParams(layoutParams);*/
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -117,8 +123,6 @@ public class MainActivity extends AppCompatActivity
         }
     }*/
 
-    RecyclerView rvMultiList;
-
     private void initList(){
         rvMultiList = findViewById(R.id.rv_multi_list);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
@@ -130,7 +134,7 @@ public class MainActivity extends AppCompatActivity
 
         multiModelList.addAll(motherBoardDao.selectAllMotherBoardFromDB());
 
-        rvMultiList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+       /* rvMultiList.addOnScrollListener(new RecyclerView.OnScrollListener() {
                                             @Override
                                             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                                                 if (newState == RecyclerView.SCROLL_STATE_IDLE){
@@ -147,45 +151,9 @@ public class MainActivity extends AppCompatActivity
                                                     fab.hide();
                                             }
                                         }
-        );
+        );*/
 
         loadDataFromServer(30, 1, 0);
-
-        /*multiModelList.add(new CPU("1 i7", 2500));
-        multiModelList.add(new CPU("2 i3", 1500));
-
-        List<String> list = new ArrayList<>();
-        list.clear();
-        list.add("1");
-        list.add("2");
-        list.add("3");
-        list.add("4");
-        list.add("5");
-        list.add("6");
-        list.add("7");
-        list.add("8");
-        list.add("9");
-        multiModelList.add(new MotherBoard("1 ASUS", "Z170", list));
-
-        multiModelList.add(new CPU("3 i7", 2500));
-        multiModelList.add(new CPU("4 i3", 1500));
-
-        List<String> list2 = new ArrayList<>();
-        list2.clear();
-        list2.add("s1");
-        list2.add("r2");
-        list2.add("f3");
-        list2.add("s4");
-        list2.add("r5");
-        list2.add("f6");
-        multiModelList.add(new MotherBoard("2 ASUS", "Z170", list2));
-
-        multiModelList.add(new CPU("5 i7", 2500));
-        multiModelList.add(new CPU("6 i3", 1500));
-        multiModelList.add(new CPU("7 i7", 2500));
-        multiModelList.add(new CPU("8 i3", 1500));*/
-
-
     }
 
     private Callback<List<CPU>> loadDataCallback = new Callback<List<CPU>>() {
