@@ -31,7 +31,7 @@ public class MotherBoardPictAdapter extends RecyclerView.Adapter<MotherBoardPict
     @Override
     public void onBindViewHolder(MbViewHolder holder, int position) {
         holder.tvStr.setText(stringList.get(position));
-        Picasso.with(context).load(stringList.get(position)).into(holder.ivPic);
+        Picasso.with(context).load(stringList.get(position)).resize(300,300).into(holder.ivPic);
         //holder.ivPic.setImageBitmap();
     }
 

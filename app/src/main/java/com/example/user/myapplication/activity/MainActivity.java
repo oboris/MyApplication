@@ -7,18 +7,18 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,7 +29,6 @@ import com.example.user.myapplication.api.ApiGoodLiftRecords;
 import com.example.user.myapplication.dao.CPUDao;
 import com.example.user.myapplication.dao.MotherBoardDao;
 import com.example.user.myapplication.model.CPU;
-import com.example.user.myapplication.model.MotherBoard;
 import com.example.user.myapplication.model.MultiModel;
 
 import java.util.ArrayList;
@@ -273,7 +272,6 @@ public class MainActivity extends AppCompatActivity
                 Snackbar.make(rvMultiList, "Finish synchronization from GoodLift Server!", Snackbar.LENGTH_LONG).show();
                 multiModelList.addAll(cpuDao.selectAllCPUFromDB());
                 rvMultiList.getAdapter().notifyDataSetChanged();
-
             }
         }
     }

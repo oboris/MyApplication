@@ -1,5 +1,6 @@
 package com.example.user.myapplication.holder;
 
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
@@ -33,6 +34,8 @@ public class MotherBoardHolder extends RecyclerView.ViewHolder implements ViewHo
     private void initList(List<String> stringList){
         rvPict.setHasFixedSize(true);
         MotherBoardPictAdapter mbPictAdapter = new MotherBoardPictAdapter(stringList, rvPict.getContext());
+//        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(rvPict.getContext(), LinearLayoutManager.HORIZONTAL, false);
+//        rvPict.setLayoutManager(layoutManager);
         rvPict.setAdapter(mbPictAdapter);
     }
 }
