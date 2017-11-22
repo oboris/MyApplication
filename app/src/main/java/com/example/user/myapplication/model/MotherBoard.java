@@ -15,11 +15,22 @@ public class MotherBoard implements MultiModel {
         this.photos = photos;
     }
 
+    public MotherBoard(String name, String chipSet) {
+        this.name = name;
+        this.chipSet = chipSet;
+    }
+
     public MotherBoard(int idMotherBoard, String name, String chipSet, List<String> photos) {
         this.idMotherBoard = idMotherBoard;
         this.name = name;
         this.chipSet = chipSet;
         this.photos = photos;
+    }
+
+    public MotherBoard(int idMotherBoard, String name, String chipSet) {
+        this.idMotherBoard = idMotherBoard;
+        this.name = name;
+        this.chipSet = chipSet;
     }
 
     public int getIdMotherBoard() {
@@ -36,6 +47,10 @@ public class MotherBoard implements MultiModel {
 
     public List<String> getPhotos() {
         return photos;
+    }
+
+    public void setPhotos(List<String> photos) {
+        this.photos = photos;
     }
 
     @Override

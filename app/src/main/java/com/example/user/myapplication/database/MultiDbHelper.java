@@ -30,8 +30,14 @@ public class MultiDbHelper extends SQLiteOpenHelper {
         db.execSQL(CPUDao.CREATE_TABLE_CPU);
         db.execSQL("INSERT INTO CPUs (id_cpu,name,frequency) " +
                 "VALUES (1,'i5_1',2000),(2,'i3_1',1500),(3,'i7_1',3000);");
+
         db.execSQL(MotherBoardDao.CREATE_TABLE_MB);
+        db.execSQL("INSERT INTO CPUs (id_cpu,name,frequency) " +
+                "VALUES (1,'i5_1',2000),(2,'i3_1',1500),(3,'i7_1',3000);");
+
         db.execSQL(MotherBoardDao.CREATE_TABLE_MB_PICT);
+        db.execSQL("INSERT INTO CPUs (id_cpu,name,frequency) " +
+                "VALUES (1,'i5_1',2000),(2,'i3_1',1500),(3,'i7_1',3000);");
     }
 
     @Override
